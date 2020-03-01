@@ -3,20 +3,22 @@
 Option Explicit
 Dim fso,strFilename,strSearch,strReplace,objFile,oldContent,newContent, someString, objFS, objTS, strContents, iNumberOfLinesToDelete, iIndexToDeleteFrom, i,j, strPreces, strPrecess
 Dim newContent1, newContent2, newContent3, newContent4, newContent5, newContent6, newContent7, newContent8, newContent9, newContent10
-Dim newContent11, newContent12, newContent13, newContent14, newContent15, newContent16, newContent17, xmlFichero
-Dim semaforo, semaforo1, semaforo2, semaforo3, semaforo4, semaforo5
+Dim newContent11, newContent12, newContent13, newContent14, newContent15, newContent16, newContent17, newContent18, newContent19,   xmlFichero
+Dim semaforo, semaforo1, semaforo2, semaforo3, semaforo4, semaforo5, semaforo6
 Dim strFichero
 Dim tagsxml (11)
-tagsxml (0)="<?xml version=" & chr(34) & "1.0" & chr(34) & " encoding=" & chr(34) & "ISO-8859-1" & chr(34) & "?>"
-tagsxml (1)="<speak version=" & chr(34) & "1.0" & chr(34) & " "
-tagsxml (2)=" xmlns=" & chr(34) & "http://www.w3.org/2001/10/synthesis" & chr(34) & ""
-tagsxml (3)=" xml:lang=" & chr(34) & "es-ES" & chr(34) & ">"
+'tagsxml (0)="<?xml version=""1.0"" encoding=""ISO-8859-1""?>"
+tagsxml (0)="<?xml version=""1.0"" ?>"
+'tagsxml (0)="<?xml version=" & chr(34) & "1.0" & chr(34) & " encoding=" & chr(34) & "ISO-8859-1" & chr(34) & "?>"
+tagsxml (1)="<speak version=""1.1"" "
+tagsxml (2)=" xmlns=""http://www.w3.org/2001/10/synthesis"""
+tagsxml (3)=" xml:lang=""es-ES"">"
 tagsxml (4)="<sentence>"
-tagsxml (5)="<pron sym=" & chr(34) & "S e jn o r " & chr(34) & "/> Senor</pron>"
-tagsxml (6)="<silence msec=" & chr(34) & "5000" & chr(34) & "/>"
-tagsxml (7)="<silence msec=" & chr(34) & "5000" & chr(34) & "/>"
-tagsxml (8)="<silence msec=" & chr(34) & "5000" & chr(34) & "/>"
-tagsxml (9)="<silence msec=" & chr(34) & "5000" & chr(34) & "/>"
+tagsxml (5)="<pron sym=""S e jn o r ""/> Senor</pron>"
+tagsxml (6)="<silence msec=""20000""/>"
+tagsxml (7)="<silence msec=""20000""/>"
+tagsxml (8)="<silence msec=""20000""/>"
+tagsxml (9)="<silence msec=""20000""/>"
 tagsxml (10)="</sentence>"
 tagsxml (11)="</speak>"
 Dim precPerso (11)
@@ -42,6 +44,7 @@ semaforo2=true
 semaforo3=true
 semaforo4=true
 semaforo5=true
+semaforo6=true
 SearchPattern = "</*[^>]*>"
 'ReplaceString = ""
 RegX.Pattern = SearchPattern
@@ -99,6 +102,13 @@ newContent3=RegX.replace(newContent2,vBCrLf)
 set objFile=fso.OpenTextFile(strFilename,2)
 objFile.Write newContent3
 objFile.Close 
+
+
+
+'set objFile=fso.OpenTextFile("c:\tmp\testigo\prba.txt",2)
+'objFile.Write newContent3
+'objFile.Close 
+
 
 
 
@@ -347,12 +357,21 @@ set objFile=fso.OpenTextFile(strFilename,1)
 oldContent=objFile.ReadAll
 newContent10=RegX.replace(newContent9,strReplace)
 
+SearchPattern = "\[Salmo 94\]"
+RegX.Pattern = SearchPattern
+RegX.Global = True
+strReplace=""
+'Read file
+set objFile=fso.OpenTextFile(strFilename,1)
+oldContent=objFile.ReadAll
+newContent11=RegX.replace(newContent10,strReplace)
+
 WScript.Echo "cadena borrada:" & SearchPattern
 
 
 'Write file
 set objFile=fso.OpenTextFile(strFilename,2)
-objFile.Write newContent10
+objFile.Write newContent11
 objFile.Close 
 
 
@@ -564,7 +583,7 @@ For i=0 To UBound(arrLines)
                     objTS.WriteLine precPerso (11)
                     objTS.WriteLine strPreces
 					semaforo=false
-                else if instr(arrLines(i),"Con el gozo que nos da el sabernos hijos de Dios, digamos con confianza") or semaforo then
+                else if instr(arrLines(i),"Con el gozo que nos da el sabernos hijos de Dios, digamos con confianza") or semaforo  or instr(arrLines(i),"Digamos ahora, todos juntos, la ") then
                          objTS.WriteLine arrLines(i)
                          semaforo=true
 '     				else if instr(arrLines(i),"ver las intenciones de oraci√≥n de ETF") then
@@ -627,120 +646,120 @@ SearchPattern = "√°"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="a"
+strReplace="·"
 
 'Write file
-newContent1=RegX.replace(oldContent,"a")
+newContent1=RegX.replace(oldContent,strReplace)
 
 
 SearchPattern = "√©"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="e"
+strReplace="È"
 
 'Write file
-newContent2=RegX.replace(newContent1,"e")
+newContent2=RegX.replace(newContent1,strReplace)
 
 
 SearchPattern = "√≠"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="i"
+strReplace="Ì"
 
 'Write file
-newContent3=RegX.replace(newContent2,"i")
+newContent3=RegX.replace(newContent2,strReplace)
 
 
 SearchPattern = "√≥"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="o"
+strReplace="Û"
 
 'Write file
-newContent4=RegX.replace(newContent3,"o")
+newContent4=RegX.replace(newContent3,strReplace)
 
 
 SearchPattern = "√∫"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="u"
+strReplace="˙"
 
 'Write file
-newContent5=RegX.replace(newContent4,"u")
+newContent5=RegX.replace(newContent4,strReplace)
 
 
 SearchPattern = "√Å"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="A"
+strReplace="¡"
 
 'Write file
-newContent6=RegX.replace(newContent5,"A")
+newContent6=RegX.replace(newContent5,strReplace)
 
 
 SearchPattern = "√â"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="E"
+strReplace="…"
 
 'Write file
-newContent7=RegX.replace(newContent6,"E")
+newContent7=RegX.replace(newContent6,strReplace)
 
 
 SearchPattern = "√ç"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="I"
+strReplace="Õ"
 
 'Write file
-newContent8=RegX.replace(newContent7,"I")
+newContent8=RegX.replace(newContent7,strReplace)
 
 
 SearchPattern = "√ì"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="O"
+strReplace="”"
 
 'Write file
-newContent9=RegX.replace(newContent8,"O")
+newContent9=RegX.replace(newContent8,strReplace)
 
 
 SearchPattern = "√ö"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="U"
+strReplace="⁄"
 
 'Write file
-newContent10=RegX.replace(newContent9,"U")
+newContent10=RegX.replace(newContent9,strReplace)
 
 
 SearchPattern = "√±"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="n"
+strReplace="Ò"
 
 'Write file
-newContent11=RegX.replace(newContent10,"n")
+newContent11=RegX.replace(newContent10,strReplace)
 
 
 SearchPattern = "√ë"
 WScript.Echo SearchPattern
 RegX.Pattern = SearchPattern
 RegX.Global = True
-strReplace="n"
+strReplace="—"
 
 'Write file
-newContent12=RegX.replace(newContent11,"N")
+newContent12=RegX.replace(newContent11,strReplace)
 
 
 
@@ -792,6 +811,26 @@ strReplace=""
 newContent17=RegX.replace(newContent16,"")
 
 
+SearchPattern = "¬ø"
+WScript.Echo SearchPattern
+RegX.Pattern = SearchPattern
+RegX.Global = True
+strReplace=""
+
+'Write file
+newContent18=RegX.replace(newContent17,"")
+
+
+SearchPattern = "¬°"
+WScript.Echo SearchPattern
+RegX.Pattern = SearchPattern
+RegX.Global = True
+strReplace=""
+
+'Write file
+newContent19=RegX.replace(newContent18,"")
+
+
 '********SearchPattern = "‚Ä†"
 '********WScript.Echo SearchPattern
 '********RegX.Pattern = SearchPattern
@@ -807,7 +846,7 @@ WScript.Echo "finalizado proceso acento"
 
 
 set objFile=fso.OpenTextFile(strFilename,2)
-objFile.Write newContent17
+objFile.Write newContent19
 objFile.Close 
 
 
@@ -864,14 +903,14 @@ For i=0 To UBound(arrLines)
     objTS.WriteLine tagsxml (2)
     objTS.WriteLine tagsxml (3)
     objTS.WriteLine tagsxml (4)
-    objTS.WriteLine tagsxml (5)
+    'objTS.WriteLine tagsxml (5)
     objTS.WriteLine arrLines(i)
 																																					WScript.Echo "pasamos por aqui 1i ---" & i
- else           if instr(arrLines(i),"Venid, aclamemos al Senor,") then
+ else           if instr(arrLines(i),"Venid, aclamemos al Se") then
                     objTS.WriteLine tagsxml (6)
                     objTS.WriteLine arrLines(i)
 																																					WScript.Echo "pasamos por aqui 2i ---" & i
-                else             if instr(arrLines(i),"que no entraran en mi descanso.") then
+                else             if instr(arrLines(i),"n en mi descanso.") then
                                      objTS.WriteLine arrLines(i)
                                      objTS.WriteLine arrLines(i+1)
                                      objTS.WriteLine arrLines(i+2)
@@ -885,24 +924,25 @@ For i=0 To UBound(arrLines)
 																	  semaforo4 = false
 															      																						WScript.Echo "pasamos por aqui 4i ---" & i
                                                                 end if
-																if instr(arrLines(i),"Bendito sea el Senor, Dios de Israel,") or semaforo4 then
+																if instr(arrLines(i),"or, Dios de Israel,") or semaforo4 then
                                                                     if semaforo4= false then
 																	      objTS.WriteLine tagsxml (6)
-																	objTS.WriteLine arrLines(i)
+																	'objTS.WriteLine arrLines(i)
 																 						WScript.Echo "pasamos por aqui 5i ---" & i
                                                                           semaforo4=true
                                                                     semaforo5=false
 																    end if
 																    if instr(arrLines(i),"por el camino de la paz.") or semaforo5 then
 																	                        if semaforo5=false then
-                                                                                                objTS.WriteLine arrLines(i)
-                                                                                                objTS.WriteLine tagsxml (6)
+                                                                                                'objTS.WriteLine arrLines(i)
+                                                                                                'objTS.WriteLine tagsxml (6)
 																							    semaforo5=true
                                                                                                 semaforo2 = false
+																								semaforo6=false
 																							end if
                                                                                             'semaforo1 = false
 																     						WScript.Echo "pasamos por aqui 6i ---" & i
-                                                                                                          if instr(arrLines(i),"Benedictus Dominus Deus Israel,") or semaforo2 then
+                                                                                                          if instr(arrLines(i),"nus Deus Israel,") or semaforo2 then
                                                                                                                   'objTS.WriteLine arrLines(i)
                                                                                                                   'objTS.WriteLine tagsxml (6)
 																    											  if semaforo2 = false then
@@ -910,11 +950,13 @@ For i=0 To UBound(arrLines)
 																    													semaforo3=false
 																    											  end if
 																     						WScript.Echo "pasamos por aqui 7i ---" & i
-                                                                                                                  if instr(arrLines(i),"lorum. Amen") or semaforo3 then
+                                                                                                                  if instr(arrLines(i),"um. Amen") or semaforo3 then
 																    											         if semaforo3=false then
                                                                                                                                semaforo3=true
+																														 else
+																														       objTS.WriteLine arrLines(i)
 																    													 end if
-                                                                                                                         objTS.WriteLine arrLines(i)
+                                                                                                                         
                                                                                                                                           'objTS.WriteLine tagsxml (6)
 																     						WScript.Echo "pasamos por aqui 8i ---" & i
                                                                                                                                                             'if instr(arrLines(i+1),"Demos gracias a Dios")  then
@@ -925,7 +967,16 @@ For i=0 To UBound(arrLines)
                                                                                                                                                             'end if
                                                                                                                   end if
 																                                          else 
-                                                                                                               objTS.WriteLine arrLines(i)
+																										       if semaforo6=false then
+                                                                                                                    objTS.WriteLine arrLines(i)
+                                                                                                                    objTS.WriteLine tagsxml (6)
+																													semaforo6=true
+																												else
+																												     if instr(arrLines(i),"al de la cruz mientras se comienza a recitar") then
+																												     else
+                                                                                                                          objTS.WriteLine arrLines(i)
+																													 end if
+																												end if
                                                                                                           end if
 																	else
 																	    objTS.WriteLine arrLines(i)

@@ -4,10 +4,41 @@ Dim msg, dgeek, oFileStream, oVoice, i, text, filesys, newfolder
 
 Const SAFT48kHz16BitStereo = 39
 Const SSFMCreateForWrite = 3 'creates the wav file even if it is present in our folder
-Const SVSFDefault      = 0
-Const SVSFlagsAsync    = 1
-Const SVSFNLPSpeakPunc = 64
-Const SVSFIsFilename   = 4
+'Const SVSFDefault      = 0
+'Const SVSFlagsAsync    = 1
+'Const SVSFNLPSpeakPunc = 64
+'Const SVSFIsFilename   = 4
+'Const SVSFIsXML = 8
+
+
+'Enum SpeechVoiceSpeakFlags
+    'SpVoice Flags
+Const    SVSFDefault = 0
+Const    SVSFlagsAsync = 1
+Const    SVSFPurgeBeforeSpeak = 2
+Const    SVSFIsFilename = 4
+Const    SVSFIsXML = 8
+Const    SVSFIsNotXML = 16
+Const    SVSFPersistXML = 32
+
+    'Normalizer Flags
+Const    SVSFNLPSpeakPunc = 64
+
+    'TTS Format
+'Const    SVSFParseSapi = 
+'Const    SVSFParseSsml = 
+'Const    SVSFParseAutoDetect = 
+
+    'Masks
+Const    SVSFNLPMask = 64
+'Const    SVSFParseMask = 
+Const    SVSFVoiceMask = 127
+Const    SVSFUnusedFlags = -128
+'End Enum
+
+
+
+
 
 
 'usage: cscript replace.vbs Filename "StringToFind" "stringToReplace"
@@ -40,6 +71,7 @@ strFilename=WScript.Arguments.Item(0)
 'oVoice.Speak strFilename, SVSFIsFilename + SVSFlagsAsync
 'oVoice.WaitUntilDone(10000)
 
+Wscript.Echo ("file to read is:" & strFilename ) 'alerting user about the new folder
 
 ''*****'strSearch="\<\/\*\[\^\>\]\*\>"
 ''*****'strSearch="Hora"
@@ -110,8 +142,13 @@ oFileStream.Open "C:\tmp\testigo\recording.wav", SSFMCreateForWrite
 Set oVoice = CreateObject("SAPI.SpVoice" )
 Set oVoice.AudioOutputStream = oFileStream
 oVoice.rate = 2
-oVoice.Speak oldContent
+'oVoice.Speak oldContent
+'oVoice.Speak oldContent, SVSFIsXML
+'oVoice.Speak strFilename, SVSFIsFilename + SVSFIsXML + SVSFlagsAsync
+'oVoice.Speak strFilename, SVSFIsFilename + SVSFlagsAsync
 'oVoice.Speak strFilename, SVSFIsFilename
+'oVoice.Speak strFilename, SVSFIsFilename + SVSFDefault
+oVoice.Speak strFilename, SVSFIsFilename + SVSFIsXML 
 oVoice.WaitUntilDone(10000)
 
 oFileStream.Close
