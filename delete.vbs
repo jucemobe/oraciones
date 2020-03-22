@@ -15,10 +15,10 @@ tagsxml (2)=" xmlns=""http://www.w3.org/2001/10/synthesis"""
 tagsxml (3)=" xml:lang=""es-ES"">"
 tagsxml (4)="<sentence>"
 tagsxml (5)="<pron sym=""S e jn o r ""/> Senor</pron>"
-tagsxml (6)="<silence msec=""20000""/>"
-tagsxml (7)="<silence msec=""20000""/>"
-tagsxml (8)="<silence msec=""20000""/>"
-tagsxml (9)="<silence msec=""20000""/>"
+tagsxml (6)="<silence msec=""200000""/>"
+tagsxml (7)="<silence msec=""200000""/>"
+tagsxml (8)="<silence msec=""200000""/>"
+tagsxml (9)="<silence msec=""200000""/>"
 tagsxml (10)="</sentence>"
 tagsxml (11)="</speak>"
 Dim precPerso (11)
@@ -51,12 +51,21 @@ RegX.Pattern = SearchPattern
 RegX.Global = True
 'ReplacedText = RegX.Replace(MyString, ReplaceString)
 'Response.Write(ReplacedText)
-
-
+Dim fsocopia
+Dim cadena_preces, cadena_padrenuestro, personal
+'cadena_preces="Palabra hecha carne para que vivamos de ella"
+'cadena_padrenuestro=" velando amorosamente por nosotros, nos atrevemos a decir"
 
 
 
 strFilename=WScript.Arguments.Item(0)
+
+
+cadena_preces=WScript.Arguments.Item(1)
+cadena_padrenuestro=WScript.Arguments.Item(2)
+
+personal=WScript.Arguments.Item(3)
+
 'strSearch="<\/\*\[\^>\]\*>"
 'strSearch="Hora"
 strReplace=""
@@ -235,6 +244,14 @@ objTS.Close
 WScript.Echo "fichero cerrado" 
 
 
+
+'Set fsocopia = CreateObject("Scripting.FileSystemObject")
+
+'fsocopia.MoveFolder "C:\tmp\testigo\2020\03\21\laudes.txt", "C:\tmp\testigo\2020\03\21\laudes_001.txt"
+'fsocopia.MoveFolder "C:\Users\rock\Desktop\TestFolder\BigEyeCat.jpg", "C:\Users\rock\Desktop\TestFolder2\FunnyCat.jpg"
+
+
+
 WScript.Echo "comienzo de borrado varias cadenas" 
 
 
@@ -382,7 +399,9 @@ WScript.Echo "comienzo de preces"
 
 
 'string fileName = "file.txt";
-someString = "en quien el Padre ha querido recapitular todas las cosas"
+'someString = "en quien el Padre ha querido recapitular todas las cosas"
+'someString = "para hacer de nosotros criaturas nuevas"
+someString = cadena_preces
 '
 'string[] lines = File.ReadAllLines(strFilename);
 'int found = -1;
@@ -551,13 +570,16 @@ WScript.Echo "comenzando proceso de preces "
 For i=0 To UBound(arrLines)
  If i < iIndexToDeleteFrom Then
     objTS.WriteLine arrLines(i)
- else if instr(arrLines(i),"en quien el Padre ha querido recapitular todas las cosas") then
+ 'else if instr(arrLines(i),"en quien el Padre ha querido recapitular todas las cosas") then
+ 'else if instr(arrLines(i),"para hacer de nosotros criaturas nuevas") then
+ else if instr(arrLines(i),cadena_preces) then
             objTS.WriteLine arrLines(i)
 '			objTS.WriteLine strPreces
       else if instr(arrLines(i),"-") then
                  objTS.WriteLine arrLines(i)
                  objTS.WriteLine strPreces
            else if instr(arrLines(i),"Se pueden añadir algunas intenciones libres.") then
+		   if personal then
                     objTS.WriteLine precPerso (0)
                     objTS.WriteLine strPreces
                     objTS.WriteLine precPerso (1)
@@ -582,8 +604,11 @@ For i=0 To UBound(arrLines)
                     objTS.WriteLine strPreces
                     objTS.WriteLine precPerso (11)
                     objTS.WriteLine strPreces
+			end if
 					semaforo=false
-                else if instr(arrLines(i),"Con el gozo que nos da el sabernos hijos de Dios, digamos con confianza") or semaforo  or instr(arrLines(i),"Digamos ahora, todos juntos, la ") then
+'                else if instr(arrLines(i),"Con el gozo que nos da el sabernos hijos de Dios, digamos con confianza") or semaforo  or instr(arrLines(i),"Digamos ahora, todos juntos, la ") then
+'                else if instr(arrLines(i),"Con el gozo que nos da el sabernos hijos de Dios, digamos con confianza") or semaforo  or instr(arrLines(i),"Concluyamos nuestras ") then
+                else if instr(arrLines(i),"Con el gozo que nos da el sabernos hijos de Dios, digamos con confianza") or semaforo  or instr(arrLines(i),cadena_padrenuestro) then
                          objTS.WriteLine arrLines(i)
                          semaforo=true
 '     				else if instr(arrLines(i),"ver las intenciones de oración de ETF") then
